@@ -25,7 +25,7 @@ class Pipe(arcade.Sprite):
         pipe = 'images/rect2.jpg'
         p = cls(pipe, PIPE_SCALING)
         p.bottom = 20
-        p.left  = 300
+        p.left  = 450
         return p
 
 
@@ -87,7 +87,7 @@ class MyGame(arcade.Window):
         for pipe in self.pipe_list:
             if pipe.right < 0:
                 pipe.kill()
-            elif pipe.right <= 200:
+            elif pipe.right <= 100 and len(self.pipe_list)<=2:
                 next_pipe = Pipe.generate_pipe()
         if next_pipe:      
             self.pipe_list.append(next_pipe)
