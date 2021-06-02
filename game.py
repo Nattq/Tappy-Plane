@@ -7,13 +7,13 @@ class MyGame(arcade.View):
 
     def __init__(self):
         super().__init__()
-        #lists of sprites
         self.coin_list = None
         self.pipe_list = None
         self.player_list = None
 
         self.player_sprite = None
-
+        self.score = 0
+        self.dead = False
         arcade.set_background_color(arcade.csscolor.BEIGE)
         
     def setup(self):
@@ -28,7 +28,8 @@ class MyGame(arcade.View):
         self.player_list.append(self.player_sprite)
 
         firstpipe = Pipe.generate_pipe()
-        self.pipe_list.append(firstpipe)
+        self.pipe_list.append(firstpipe[0])
+        self.pipe_list.append(firstpipe[1])       
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite,self.pipe_list)
         
@@ -38,6 +39,10 @@ class MyGame(arcade.View):
         self.player_list.draw()
         self.pipe_list.draw()
         self.coin_list.draw()
+        # Draw our score on the screen, scrolling it with the viewport
+        score_text = f"Score: {self.score}"
+        arcade.draw_text(score_text,100,500,
+                            arcade.csscolor.BLACK, 18)
 
     def on_key_press(self,key,modifiers):
         if key == arcade.key.SPACE:
@@ -59,21 +64,22 @@ class MyGame(arcade.View):
             elif pipe.right <= 100 and len(self.pipe_list) <= 2:
                 next_pipe = Pipe.generate_pipe()
         if next_pipe:      
-            self.pipe_list.append(next_pipe)
+            self.pipe_list.append(next_pipe[0])
+            self.pipe_list.append(next_pipe[1])            
             
         self.physics_engine.update()
         self.pipe_list.update()
 
-        if arcade.check_for_collision_with_list(self.player_sprite,self.pipe_list):
+        if any(arcade.check_for_collision_with_list(self.player_sprite,self.pipe_list)):
             self.player_sprite.kill()
             view = menu.GameOver()
             self.window.show_view(view)
+            self.dead = True
 
 def main():
     window = arcade.Window(SCREEN_WIDTH,SCREEN_HEIGHT,SCREEN_TITLE)
     start_view = menu.MenuView()
     window.show_view(start_view)
-    #start_view.setup()
     arcade.run()
 
 if __name__ == '__main__':
