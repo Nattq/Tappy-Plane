@@ -12,7 +12,11 @@ class Pipe(arcade.Sprite):
     @classmethod
     def generate_pipe(cls):
         pipe = 'images/pipe2.png'
-        p = cls(pipe, PIPE_SCALING)
-        p.bottom = 20
-        p.left  = SCREEN_WIDTH
-        return p
+        p1 = cls(pipe, PIPE_SCALING)
+        p1.bottom = 20
+        p1.left  = SCREEN_WIDTH
+
+        p2 = cls(pipe, PIPE_SCALING)
+        p2.bottom = 20 +300
+        p2.left  = SCREEN_WIDTH       
+        return p1,p2
