@@ -5,13 +5,13 @@ from constants import *
 from pipe import Pipe
 class MyGame(arcade.View):
 
-    def __init__(self):
+    def __init__(self,input_box):
         super().__init__()
         self.coin_list = None
         self.pipe_list = None
         self.player_list = None
-
         self.player_sprite = None
+        self.user = input_box.text
         self.score = 0
         self.dead = False
         arcade.set_background_color(arcade.csscolor.BEIGE)
@@ -21,10 +21,10 @@ class MyGame(arcade.View):
         self.pipe_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList(use_spatial_hash=True)
 
-        image_bird ='images/square2.png'
+        image_bird =':resources:images/enemies/sawHalf.png'
         self.player_sprite = arcade.Sprite(image_bird,CHARACTER_SCALING)
-        self.player_sprite.center_x = 100
-        self.player_sprite.center_y = 300
+        self.player_sprite.center_x = BIRD_X
+        self.player_sprite.center_y = BIRD_Y
         self.player_list.append(self.player_sprite)
 
         firstpipe = Pipe.generate_pipe()
@@ -41,20 +41,22 @@ class MyGame(arcade.View):
         self.coin_list.draw()
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
-        arcade.draw_text(score_text,100,500,
+        arcade.draw_text(score_text,100,650,
                             arcade.csscolor.BLACK, 18)
-
+        arcade.draw_text(str(self.user),200,650,
+                            arcade.csscolor.BLACK, 18)
     def on_key_press(self,key,modifiers):
         if key == arcade.key.SPACE:
             self.player_sprite.change_y = BIRD_MOVEMENT_SPEED
+            #print(str(self.window.user))
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.SPACE:
-            self.player_sprite.change_y = -2*BIRD_MOVEMENT_SPEED
+            self.player_sprite.change_y = -BIRD_MOVEMENT_SPEED
 
-    def on_mouse_motion(self, x, y, dx, dy):
-        self.player_sprite.center_x = x
-        self.player_sprite.center_y = y
+    #def on_mouse_motion(self, x, y, dx, dy):
+        #self.player_sprite.center_x = x
+        #self.player_sprite.center_y = y
 
     def on_update(self, delta_time):
         next_pipe = None
@@ -69,15 +71,31 @@ class MyGame(arcade.View):
             
         self.physics_engine.update()
         self.pipe_list.update()
-
+        a = self.player_sprite.collides_with_list(self.pipe_list)
+        print(a)
         if any(arcade.check_for_collision_with_list(self.player_sprite,self.pipe_list)):
             self.player_sprite.kill()
+            with open('best_scores.txt', 'a') as file:
+                score = self.score
+                file.write(str(score)+"\n")
             view = menu.GameOver()
             self.window.show_view(view)
             self.dead = True
 
+        if self.pipe_list[0].center_x <= BIRD_X and self.pipe_list[0].scored == False:
+            self.pipe_list[0].scored = True
+            self.pipe_list[1].scored = True
+            self.score +=1
+
+        if self.player_sprite.center_y >= MAX_HEIGHT:
+            self.player_sprite.center_y = MAX_HEIGHT
+        elif self.player_sprite.center_y <= MIN_HEIGHT:
+            self.player_sprite.center_y = MIN_HEIGHT
+
+
 def main():
     window = arcade.Window(SCREEN_WIDTH,SCREEN_HEIGHT,SCREEN_TITLE)
+    user = None
     start_view = menu.MenuView()
     window.show_view(start_view)
     arcade.run()

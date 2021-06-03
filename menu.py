@@ -5,12 +5,12 @@ import arcade
 from constants import *
 import arcade.gui
 from arcade.gui import UIManager
-from buttons import ExitButton, ScoreButton, StartButton
+from buttons import ExitButton, ScoreButton, StartButton, UserName
 import sys
 class MenuView(arcade.View):
     def __init__(self):
         super().__init__()
-
+        self.user = None
         self.ui_manager = UIManager()
 
     def on_show_view(self):
@@ -23,12 +23,15 @@ class MenuView(arcade.View):
 
     def setup(self):
         self.ui_manager.purge_ui_elements()
-        startbtn = StartButton(center_x=200, center_y=400)
-        self.ui_manager.add_ui_element(startbtn)
+
         exitbtn = ExitButton(center_x = 200, center_y = 300)
         self.ui_manager.add_ui_element(exitbtn)
         exitbtn = ScoreButton(center_x = 200, center_y = 200)
         self.ui_manager.add_ui_element(exitbtn)
+        user_name = UserName(SCREEN_WIDTH/2,500,"user_name","podaj nazwe")
+        self.ui_manager.add_ui_element(user_name)
+        startbtn = StartButton(center_x=200, center_y=400,input_box=user_name)
+        self.ui_manager.add_ui_element(startbtn)
     #def on_show(self):
         #arcade.set_background_color(arcade.color.WHITE)
         #arcade.set_viewport(0,SCREEN_WIDTH-1,0,SCREEN_HEIGHT-1)
