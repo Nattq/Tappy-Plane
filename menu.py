@@ -5,7 +5,7 @@ import arcade
 from constants import *
 import arcade.gui
 from arcade.gui import UIManager
-from buttons import ExitButton, ScoreButton, StartButton, UserName
+from buttons import ExitButton, RulesButton, ScoreButton, StartButton, UserName
 import sys
 class MenuView(arcade.View):
     def __init__(self):
@@ -14,9 +14,8 @@ class MenuView(arcade.View):
         self.ui_manager = UIManager()
 
     def on_show_view(self):
-        """ Called once when view is activated. """
         self.setup()
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.GAINSBORO)
 
     def on_hide_view(self):
         self.ui_manager.unregister_handlers()
@@ -24,14 +23,16 @@ class MenuView(arcade.View):
     def setup(self):
         self.ui_manager.purge_ui_elements()
 
-        exitbtn = ExitButton(center_x = 200, center_y = 300)
+        exitbtn = ExitButton(center_x = SCREEN_WIDTH/2, center_y = 300)
         self.ui_manager.add_ui_element(exitbtn)
-        exitbtn = ScoreButton(center_x = 200, center_y = 200)
+        exitbtn = ScoreButton(center_x = SCREEN_WIDTH/2, center_y = 200)
         self.ui_manager.add_ui_element(exitbtn)
         user_name = UserName(SCREEN_WIDTH/2,500,"user_name","podaj nazwe")
         self.ui_manager.add_ui_element(user_name)
-        startbtn = StartButton(center_x=200, center_y=400,input_box=user_name)
+        startbtn = StartButton(center_x=SCREEN_WIDTH/2, center_y=400,input_box=user_name)
         self.ui_manager.add_ui_element(startbtn)
+        rulesbtn = RulesButton(SCREEN_WIDTH/2,center_y=100)
+        self.ui_manager.add_ui_element(rulesbtn)
     #def on_show(self):
         #arcade.set_background_color(arcade.color.WHITE)
         #arcade.set_viewport(0,SCREEN_WIDTH-1,0,SCREEN_HEIGHT-1)
@@ -71,6 +72,20 @@ class BestScore(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("GAME OVER", SCREEN_WIDTH/2,SCREEN_HEIGHT/2, 
+        arcade.draw_text("BEST SCORES", SCREEN_WIDTH/2,SCREEN_HEIGHT*0.85, 
                             arcade.color.RED, anchor_x="center",font_size = 50,)
-        arcade.draw_text("Click to go back start menu",SCREEN_WIDTH/2, SCREEN_HEIGHT/2-75,arcade.color.RED)
+
+        with open('best_scores.txt','r') as file:
+            content = file.readlines()
+        #print(content)
+        content = [element.split(",") for element in content]
+        print(content)
+        print(content.sort())
+        for i in range(5):
+            arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
+            try:
+                arcade.draw_text(content[i][0],SCREEN_WIDTH/5+40, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
+                arcade.draw_text(content[i][1].rstrip("\n"),SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
+            except IndexError:
+                pass
+            
