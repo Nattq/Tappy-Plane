@@ -4,7 +4,7 @@ import random
 class Pipe(arcade.Sprite):
     def __init__(self, image,scale=.5):
         super().__init__(image, scale)
-        self.speed = 1.5
+        self.speed = 2.5
         self.scored = False
 
     def update(self):
@@ -12,7 +12,7 @@ class Pipe(arcade.Sprite):
 
     @classmethod
     def generate_pipe(cls):
-        pipe = 'images/pipe2.png'
+        pipe = 'images/bamboo1.png'
         p1 = cls(pipe, PIPE_SCALING)
         p1.bottom = random.randint(-100,200)
         p1.left  = SCREEN_WIDTH

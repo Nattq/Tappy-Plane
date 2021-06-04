@@ -1,14 +1,34 @@
-0
-1
-4
-0
-0
-0
-0
-0
-1
-1
-0
-1
-1
-0
+podaj nazwe,5
+podaj nazwe,0
+podaj nazwe,1
+podaj nazwe,6
+podaj nazwe,0
+Natalia,4
+podaj nazwe,4
+podaj nazwe,2
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,1
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,1
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,1
+podaj nazwe,0
+podaj nazwe,0
+Natalia,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,0
+podaj nazwe,1
+podaj nazwe,1
+ola,18
+podaj nazwe,1
+podaj nazwe,0

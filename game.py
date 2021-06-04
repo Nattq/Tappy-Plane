@@ -22,11 +22,14 @@ class MyGame(arcade.View):
         self.pipe_list = arcade.SpriteList(use_spatial_hash=True)
         self.coin_list = arcade.SpriteList(use_spatial_hash=True)
         self.heart_list = arcade.SpriteList(use_spatial_hash=True)
-        image_bird =':resources:images/enemies/sawHalf.png'
+        image_bird ='images/plane12.png'
+
         self.player_sprite = arcade.Sprite(image_bird,CHARACTER_SCALING)
         self.player_sprite.center_x = BIRD_X
         self.player_sprite.center_y = BIRD_Y
+        self.player_sprite.angle = 45
         self.player_list.append(self.player_sprite)
+
         firstpipe = Pipe.generate_pipe()
         self.pipe_list.append(firstpipe[0])
         self.pipe_list.append(firstpipe[1])       
@@ -36,22 +39,22 @@ class MyGame(arcade.View):
             h.center_x=50
             h.center_y = 600-i*35
             self.heart_list.append(h)
-        print(len(self.heart_list))
+
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite,self.pipe_list)
         
     def on_draw(self):
         arcade.start_render()
-
         self.player_list.draw()
         self.pipe_list.draw()
         self.coin_list.draw()
         self.heart_list.draw()
-        # Draw our score on the screen, scrolling it with the viewport
+
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text,100,650,
                             arcade.csscolor.BLACK, 18)
         arcade.draw_text(str(self.user),200,650,
                             arcade.csscolor.BLACK, 18)
+
     def on_key_press(self,key,modifiers):
         if key == arcade.key.SPACE:
             self.player_sprite.change_y = BIRD_MOVEMENT_SPEED
@@ -107,7 +110,6 @@ class MyGame(arcade.View):
 
 def main():
     window = arcade.Window(SCREEN_WIDTH,SCREEN_HEIGHT,SCREEN_TITLE)
-    user = None
     start_view = menu.MenuView()
     window.show_view(start_view)
     arcade.run()
