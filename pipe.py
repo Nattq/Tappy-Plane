@@ -12,7 +12,7 @@ class Pipe(arcade.Sprite):
 
     @classmethod
     def generate_pipe(cls):
-        pipe = ':resources:images/alien/alienBlue_climb1.png'
+        pipe = 'images/pipe2.png'
         p1 = cls(pipe, PIPE_SCALING)
         p1.bottom = random.randint(-100,200)
         p1.left  = SCREEN_WIDTH

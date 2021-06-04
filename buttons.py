@@ -20,8 +20,7 @@ class StartButton(arcade.gui.UIFlatButton):
         menu_view = game.MyGame(self.input_box)
         menu_view.setup()
         menu_view.window.show_view(menu_view)
-        #text = input_box.text
-        #menu_view.user = text
+
 
 
 class ScoreButton(arcade.gui.UIFlatButton):
@@ -36,3 +35,11 @@ class ScoreButton(arcade.gui.UIFlatButton):
 class UserName(arcade.gui.UIInputBox):
     def __init__(self, center_x, center_y,id,text):
         super().__init__(center_x=center_x,center_y=center_y,text=text,id = id,width=300)
+
+    def on_click(self):
+        if self.text == "podaj nazwe":
+            self.text =""
+
+class RulesButton(arcade.gui.UIFlatButton):
+    def __init__(self,center_x,center_y):
+        super().__init__(text="Rules",center_x=center_x,center_y=center_y,width=300,height=50)
