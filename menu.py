@@ -40,15 +40,6 @@ class MenuView(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-        #arcade.draw_text("Menu screen", SCREEN_WIDTH/2,SCREEN_HEIGHT/2, 
-        #                    arcade.color.BLACK, anchor_x="center",font_size = 50,)
-        #arcade.draw_text("Click to advance",SCREEN_WIDTH/2, SCREEN_HEIGHT/2-75,arcade.color.BLACK)
-
-
-    #def on_mouse_press(self,_x,_y,_button,_modifiers):
-        #menu_view = game.MyGame()
-        #menu_view.setup()
-        #self.window.show_view(menu_view)
 
 class GameOver(arcade.View):
     def __init__(self):
@@ -56,7 +47,6 @@ class GameOver(arcade.View):
         self.ui_manager = UIManager()
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
-        #arcade.set_viewport(0,SCREEN_WIDTH-1,0,SCREEN_HEIGHT-1)
 
     def on_hide_view(self):
         self.ui_manager.unregister_handlers()
@@ -66,11 +56,6 @@ class GameOver(arcade.View):
         arcade.draw_text("GAME OVER", SCREEN_WIDTH/2,SCREEN_HEIGHT/2, 
                             arcade.color.RED, anchor_x="center",font_size = 50,)
         arcade.draw_text("Click to go back start menu",SCREEN_WIDTH/2, SCREEN_HEIGHT/2-75,arcade.color.RED)
-
-    #def on_key_press(self,key,modifiers):
-        #if key == arcade.key.SPACE:
-            #menu = MenuView()
-            #menu.window.show_view(menu)
 
     def on_mouse_press(self,_x,_y,_button,_modifiers):
         menu_view = MenuView()
@@ -96,20 +81,28 @@ class BestScore(arcade.View):
         arcade.draw_text("BEST SCORES", SCREEN_WIDTH/2,SCREEN_HEIGHT*0.85, 
                             arcade.color.RED, anchor_x="center",font_size = 50,)
 
+
         with open('best_scores.txt','r') as file:
             content = file.readlines()
-
-        content = [element.split(",") for element in content]
-        content = [[element[0],int(element[1].rstrip("\n"))] for element in content] 
+        raw_content = [element.split(",") for element in content]
+        content = [ [element[0],int(element[1].rstrip("\n")) ] for element in raw_content] 
         content = sorted(content, key=lambda x: x[1],reverse=True)
-        for i in range(5):
+        for i in range(10):
             arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
             try:
                 arcade.draw_text(content[i][0],SCREEN_WIDTH/5+40, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
                 arcade.draw_text(str(content[i][1]),SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
-                #print(content[i][1])
             except IndexError:
                 pass
+
+        if len(raw_content)>0:
+            with open('best_scores.txt','w') as file:
+                file.truncate()
+                try:
+                    for i in range(15):
+                        file.writelines(raw_content[i][0]+',' +str(raw_content[i][1]))
+                except:
+                    pass
 
             
 

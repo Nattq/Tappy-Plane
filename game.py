@@ -4,6 +4,8 @@ import menu
 from constants import *
 from pipe import Pipe
 from life import Hearts
+import random 
+from coin import Coin
 class MyGame(arcade.View):
 
     def __init__(self,input_box):
@@ -53,8 +55,6 @@ class MyGame(arcade.View):
             h.center_x=50
             h.center_y = 600-i*35
             self.heart_list.append(h)
-
-        #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite,self.pipe_list)
         
     def on_draw(self):
         arcade.start_render()
@@ -66,51 +66,51 @@ class MyGame(arcade.View):
 
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text,20,670,
-                            arcade.csscolor.BLACK, 18)
+                            arcade.csscolor.WHITE_SMOKE, 18)
         arcade.draw_text(str(self.user),20+100,670,
-                            arcade.csscolor.BLACK, 18)
+                            arcade.csscolor.WHITE_SMOKE, 18)
 
     def on_key_press(self,key,modifiers):
         if key == arcade.key.SPACE:
-            #self.player_sprite.change_y = BIRD_MOVEMENT_SPEED
             self.jump()
-
-    #def on_key_release(self, key, modifiers):
-       # if key == arcade.key.SPACE:
-            #self.player_sprite.change_y = -BIRD_MOVEMENT_SPEED
 
     def jump(self):
         self.player_sprite.speed = 70
-    #def on_mouse_motion(self, x, y, dx, dy):
-        #self.player_sprite.center_x = x
-        #self.player_sprite.center_y = y
 
     def on_update(self, delta_time):
-        #print( self.player_sprite.top-self.pipe_list[1].bottom )
-        next_pipe = None
+        #generate pipes and coins
         for pipe in self.pipe_list:
             if pipe.right < 0:
-                pipe.kill()
-            elif pipe.right <= 100 and len(self.pipe_list) <= 2:
+                pipe.remove_from_sprite_lists()
+            elif pipe.center_x <= 200 and len(self.pipe_list) <= 2:
                 next_pipe = Pipe.generate_pipe()
-        if next_pipe:      
-            self.pipe_list.append(next_pipe[0])
-            self.pipe_list.append(next_pipe[1])
-            self.pipe_list[0].draw_hit_box()      
-        self.pipe_list[0].draw_hit_box()
+                self.pipe_list.append(next_pipe[0])
+                self.pipe_list.append(next_pipe[1]) 
+            elif pipe.center_x == 375 and len(self.coin_list)==0  and self.score >1:
+                p = random.choices([True,False],[0.3,0.7])
+                if p[0]==True:
+                    coin = Coin.generate_coin()
+                    self.coin_list.append(coin) 
+
+        #collecting coins
+        coin_hit = arcade.check_for_collision_with_list(self.player_sprite,self.coin_list)
+        for coin in coin_hit:
+            coin.remove_from_sprite_lists()
+            self.score +=1
+        if  len(self.coin_list)>0 and self.coin_list[0].right <0:
+            self.coin_list[0].remove_from_sprite_lists() 
+
+        #hits with pipes
         hits = arcade.check_for_collision_with_list(self.player_sprite,self.pipe_list) or arcade.check_for_collision_with_list(
             self.player_sprite,self.ground) 
-            #or (abs(self.player_sprite.center_x-self.pipe_list[0].center_x) 
-            #<2 and self.player_sprite.bottom-self.pipe_list[0].top <1) or (abs(self.player_sprite.center_x-
-                    #self.pipe_list[1].center_x) < 3 and self.pipe_list[1].bottom-self.player_sprite.top <1)
         if hits :
             for pipe in self.pipe_list:
                 pipe.center_x = pipe.center_x+200
             arcade.pause(1)
             self.player_sprite.center_x=BIRD_X
             self.player_sprite.center_y = BIRD_Y
-            self.heart_list[-1].kill()
-            
+            self.heart_list[-1].remove_from_sprite_lists()
+            #arcade.pause(1)
             if len(self.heart_list)==0:
                 with open('best_scores.txt', 'a') as file:
                     score = self.score
@@ -118,28 +118,26 @@ class MyGame(arcade.View):
                     file.write(user +','+str(score)+"\n")
                 view = menu.GameOver()
                 self.window.show_view(view)
-                self.dead = True
+                #self.dead = True
 
+
+
+        #jumping
         if self.player_sprite.speed >0:
             self.player_sprite.center_y += 3
             self.player_sprite.speed -= 3
         else:
             self.player_sprite.center_y -=3
 
-
+        #scoring points
         if self.pipe_list[0].center_x <= BIRD_X and self.pipe_list[0].scored == False:
             self.pipe_list[0].scored = True
             self.pipe_list[1].scored = True
             self.score +=1
 
-        """        if self.player_sprite.center_y >= MAX_HEIGHT:
-            self.player_sprite.center_y = MAX_HEIGHT
-        elif self.player_sprite.center_y <= MIN_HEIGHT:
-            self.player_sprite.center_y = MIN_HEIGHT"""
-
-        #self.physics_engine.update()
         self.pipe_list.update()
         self.heart_list.update()
+        self.coin_list.update()
 
 def main():
     window = arcade.Window(SCREEN_WIDTH,SCREEN_HEIGHT,SCREEN_TITLE)
