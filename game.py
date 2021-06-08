@@ -97,7 +97,7 @@ class MyGame(arcade.View):
                 self.pipe_list.append(next_pipe[1])
             else:
                 pass 
-            
+
         #generate coins
         if len(self.coin_list)==0  and self.score > 1 and self.pipe_list[0].center_x==250:
             p = random.choices([True,False],[0.3,0.7])
@@ -132,10 +132,11 @@ class MyGame(arcade.View):
                     score = self.score
                     user = self.user
                     file.write(user +','+str(score)+"\n")
-                view = menu.GameOver()
+                view = menu.GameOver(self.score)
+                view.setup()
                 self.window.show_view(view)
 
-        #jumping heigth
+        #jumping height
         if self.player_sprite.speed >0:
             self.player_sprite.center_y += 4
             self.player_sprite.speed -= 4

@@ -63,10 +63,27 @@ class MenuView(arcade.View):
         self.text.draw()
 
 class GameOver(arcade.View):
-    def __init__(self):
+    def __init__(self,score):
         """Creates a game over view"""
         super().__init__()
         self.ui_manager = UIManager()
+        self.game_score = score
+
+    def setup(self):
+        self.text_list = arcade.SpriteList()
+        self.text = arcade.Sprite("images/game_over.png")
+        self.text.center_x = SCREEN_WIDTH//2
+        self.text.top = SCREEN_HEIGHT -10
+        self.text.width = SCREEN_WIDTH-100
+        self.text.height = 80
+        self.text_list.append(self.text)
+
+        self.text2 = arcade.Sprite("images/score.png")
+        self.text2.center_x = SCREEN_WIDTH//2
+        self.text2.top = SCREEN_HEIGHT -200
+        self.text2.width = SCREEN_WIDTH-100
+        self.text2.height = 60
+        self.text_list.append(self.text2)
 
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
@@ -76,9 +93,10 @@ class GameOver(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("GAME OVER", SCREEN_WIDTH/2,SCREEN_HEIGHT/2, 
-                            arcade.color.RED, anchor_x="center",font_size = 50)
-        arcade.draw_text("Click to go back start menu",SCREEN_WIDTH/2, SCREEN_HEIGHT/2-75,arcade.color.RED)
+        arcade.draw_text(f'{self.game_score}', SCREEN_WIDTH//2,SCREEN_HEIGHT//2,arcade.color.RED,bold=True,font_size=40)
+        arcade.draw_text("Click to go back start menu",SCREEN_WIDTH/4, SCREEN_HEIGHT/2-75,arcade.color.RED,font_size=20)
+
+        self.text_list.draw()
 
     def on_mouse_press(self,_x,_y,_button,_modifiers):
         menu_view = MenuView()
@@ -115,8 +133,6 @@ class BestScore(arcade.View):
         arcade.start_render()
 
         arcade.draw_lrwh_rectangle_textured(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,self.background)
-        #arcade.draw_text("BEST SCORES", SCREEN_WIDTH/2,SCREEN_HEIGHT*0.85, 
-                            #arcade.color.RED, anchor_x="center",font_size = 50,)
         self.text_list.draw()
         with open('best_scores.txt','r') as file:
             content = file.readlines()
@@ -124,10 +140,10 @@ class BestScore(arcade.View):
         content = [ [element[0],int(element[1].rstrip("\n")) ] for element in raw_content] 
         content = sorted(content, key=lambda x: x[1],reverse=True)
         for i in range(10):
-            arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
+            arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN,font_size=20)
             try:
-                arcade.draw_text(content[i][0],SCREEN_WIDTH/5+40, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
-                arcade.draw_text(str(content[i][1]),SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN)
+                arcade.draw_text(content[i][0],SCREEN_WIDTH/5+40, SCREEN_HEIGHT*0.75 - i*35,arcade.color.BLACK_BEAN,font_size=20)
+                arcade.draw_text(str(content[i][1]),SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.75 - i*35,arcade.color.BLACK_BEAN,font_size=20)
             except IndexError:
                 pass
 
