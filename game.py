@@ -36,7 +36,7 @@ class MyGame(arcade.View):
         self.player_sprite.speed = 0
         self.player_list.append(self.player_sprite)
 
-        firstpipe = Pipe.generate_pipe()
+        firstpipe = Pipe.generate_pipe(self.score)
         self.pipe_list.append(firstpipe[0])
         self.pipe_list.append(firstpipe[1])       
 
@@ -76,6 +76,7 @@ class MyGame(arcade.View):
 
     def jump(self):
         self.player_sprite.speed = 70
+        #print(self.pipe_list[0].center_x,len(self.coin_list),self.score)
 
     def on_update(self, delta_time):
         #generate pipes and coins
@@ -83,20 +84,25 @@ class MyGame(arcade.View):
             if pipe.right < 0:
                 pipe.remove_from_sprite_lists()
             elif pipe.center_x <= 200 and len(self.pipe_list) <= 2:
-                next_pipe = Pipe.generate_pipe()
+                next_pipe = Pipe.generate_pipe(self.score)
                 self.pipe_list.append(next_pipe[0])
                 self.pipe_list.append(next_pipe[1]) 
-            elif pipe.center_x == 375 and len(self.coin_list)==0  and self.score >1:
-                p = random.choices([True,False],[0.3,0.7])
+                #pipe.center_x == 375 and 
+            elif len(self.coin_list)==0  and self.score > 1:
+                p = random.choices([True,False],[1,0])
                 if p[0]==True:
-                    coin = Coin.generate_coin()
+                    coin = Coin.generate_coin(self.score)
                     self.coin_list.append(coin) 
+            else:
+                #print('brak')
+                pass
 
         #collecting coins
         coin_hit = arcade.check_for_collision_with_list(self.player_sprite,self.coin_list)
         for coin in coin_hit:
             coin.remove_from_sprite_lists()
             self.score +=1
+            arcade.play_sound(SOUNDS['coin'])
         if  len(self.coin_list)>0 and self.coin_list[0].right <0:
             self.coin_list[0].remove_from_sprite_lists() 
 
@@ -120,12 +126,17 @@ class MyGame(arcade.View):
                 self.window.show_view(view)
                 #self.dead = True
 
+        """if self.score%10==0:
+            for pipe in self.pipe_list:
+                if self.player_sprite.center_x == pipe.center_x:
+                    for element in self.pipe_list:
+                        element.speed +=1"""
 
 
         #jumping
         if self.player_sprite.speed >0:
-            self.player_sprite.center_y += 3
-            self.player_sprite.speed -= 3
+            self.player_sprite.center_y += 4
+            self.player_sprite.speed -= 4
         else:
             self.player_sprite.center_y -=3
 
