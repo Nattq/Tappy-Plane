@@ -1,3 +1,5 @@
+"""File with all constants"""
+import arcade
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 700
 OFFSCREEN_SPACE = 300
@@ -16,4 +18,13 @@ BIRD_Y= 350
 MIN_HEIGHT = 80
 MAX_HEIGHT = SCREEN_HEIGHT-100
 
-USER_NAME = ""
+SOUNDS = {
+    "coin": arcade.load_sound(':resources:sounds/coin5.wav'),
+    "hit":arcade.load_sound(':resources:sounds/hurt2.wav'),
+    "game over":arcade.load_sound(':resources:sounds/gameover3.wav')
+}
+
+
+RULES = ['Aby skoczyć kliknij spację.', 'Za każdą pokonaną przeszkodę dostajesz punkt.',
+        'Za każdą zebraną monetę też otrzymujesz punkt.','Co 10 przeszkód poruszasz się coraz szybciej.',
+        'Masz 3 życia.']
