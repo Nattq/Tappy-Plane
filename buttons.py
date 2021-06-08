@@ -7,14 +7,14 @@ import menu
 
 class ExitButton(arcade.gui.UIFlatButton):
     def __init__(self,center_x,center_y):
-        super().__init__(text = "Exit",center_x = center_x, center_y= center_y, width = 300)
+        super().__init__(text = "Exit",center_x = center_x, center_y= center_y, width = 300,height=50)
     def on_click(self):
-        self.window.close_window()
+        arcade.close_window()
     
 
 class StartButton(arcade.gui.UIFlatButton):
     def __init__(self,menu_view,center_x,center_y,input_box):
-        super().__init__(text = "start",center_x = center_x, center_y= center_y, width = 300,input_box=input_box)
+        super().__init__(text = "START",center_x = center_x, center_y= center_y, width = 300,input_box=input_box,height=50)
         self.input_box = input_box
         self.view = menu_view
 
@@ -26,7 +26,7 @@ class StartButton(arcade.gui.UIFlatButton):
 
 class ScoreButton(arcade.gui.UIFlatButton):
     def __init__(self,center_x,center_y):
-        super().__init__(text = "Best score",center_x = center_x, center_y= center_y, width = 300)
+        super().__init__(text = "Best score",center_x = center_x, center_y= center_y, width = 300,height =50)
 
     def on_click(self):
         score = menu.BestScore()
@@ -48,10 +48,14 @@ class RulesButton(arcade.gui.UIFlatButton):
 
 class BackToMenu(arcade.gui.UIFlatButton):
     def __init__(self,center_x,center_y):
-        super().__init__(text="Back to menu",center_x=center_x,center_y=center_y,width=300,heigth=70)
+        super().__init__(text="Back to menu",center_x=center_x,center_y=center_y,width=300,heigth=50)
 
     def on_click(self):
         menu_view = menu.MenuView()
         menu_view.setup()
         menu_view.window.show_view(menu_view)
         #self.kill()
+
+class AboutAuthor(arcade.gui.UIFlatButton):
+    def __init__(self,center_x,center_y):
+        super().__init__(text="About author",center_x=center_x,center_y=center_y,width=300,height=50)
