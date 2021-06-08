@@ -1,34 +1,10 @@
-podaj nazwe,5
-podaj nazwe,0
-podaj nazwe,1
 podaj nazwe,6
-podaj nazwe,0
-Natalia,4
-podaj nazwe,4
-podaj nazwe,2
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,1
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,1
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,1
-podaj nazwe,0
-podaj nazwe,0
-Natalia,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,0
-podaj nazwe,1
-podaj nazwe,1
-ola,18
-podaj nazwe,1
-podaj nazwe,0
+podaj nazwe,44
+podaj nazwe,32
+podaj nazwe,14
+podaj nazwe,30
+USER,0
+USER,10
+USER,24
+USER,11
+USER,10

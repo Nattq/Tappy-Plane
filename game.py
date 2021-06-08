@@ -97,13 +97,13 @@ class MyGame(arcade.View):
                 self.pipe_list.append(next_pipe[1])
             else:
                 pass 
+            
         #generate coins
-        if len(self.coin_list)==0  and self.score > 1:
-            p = random.choices([True,False],[1,0])
+        if len(self.coin_list)==0  and self.score > 1 and self.pipe_list[0].center_x==250:
+            p = random.choices([True,False],[0.3,0.7])
             if p[0]==True:
                 coin = Coin.generate_coin(self.score)
                 self.coin_list.append(coin)  
-
 
         #collecting coins
         coin_hit = arcade.check_for_collision_with_list(self.player_sprite,self.coin_list)
