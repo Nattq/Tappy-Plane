@@ -1,7 +1,5 @@
 import arcade
-#from arcade.color import BLACK_BEAN
 from constants import *
-#import arcade.gui
 from arcade.gui import UIManager
 from buttons import ExitButton, RulesButton, ScoreButton, StartButton, UserName,BackToMenu, AboutAuthor
 

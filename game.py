@@ -6,6 +6,7 @@ from pipe import Pipe
 from coin import Coin,Hearts
 
 class MyGame(arcade.View):
+    """CLass representing game"""
     def __init__(self,input_box):
         """Create game window"""
         super().__init__()
