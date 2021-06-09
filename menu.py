@@ -1,9 +1,7 @@
-#menu.py
-#from arcade.window_commands import start_render
 import arcade
-from arcade.color import BLACK_BEAN
+#from arcade.color import BLACK_BEAN
 from constants import *
-import arcade.gui
+#import arcade.gui
 from arcade.gui import UIManager
 from buttons import ExitButton, RulesButton, ScoreButton, StartButton, UserName,BackToMenu, AboutAuthor
 
@@ -140,7 +138,7 @@ class BestScore(arcade.View):
         content = [ [element[0],int(element[1].rstrip("\n")) ] for element in raw_content] 
         content = sorted(content, key=lambda x: x[1],reverse=True)
         for i in range(10):
-            arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*30,arcade.color.BLACK_BEAN,font_size=20)
+            arcade.draw_text(str(i+1)+".",SCREEN_WIDTH/5, SCREEN_HEIGHT*0.75 - i*35,arcade.color.BLACK_BEAN,font_size=20)
             try:
                 arcade.draw_text(content[i][0],SCREEN_WIDTH/5+40, SCREEN_HEIGHT*0.75 - i*35,arcade.color.BLACK_BEAN,font_size=20)
                 arcade.draw_text(str(content[i][1]),SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.75 - i*35,arcade.color.BLACK_BEAN,font_size=20)
