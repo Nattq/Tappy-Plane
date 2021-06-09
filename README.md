@@ -1,4 +1,5 @@
 # Tappy Plane aka Flappy Bird
+
 ## Author: Natalia Jelito
 
 ### Description:
@@ -11,13 +12,13 @@ It is a version of flappy bird game, but we change the scenery and we try to hel
 
 ### How to run this app?
 1. Clone the repository using
-`git clone  https://github.com/Nattq/progr_gra.git tappy-plane`
+    `git clone  https://github.com/Nattq/progr_gra.git tappy-plane`
 
-`cd tappy-plane`
+    `cd tappy-plane`
 
 2. Install the project's development and runtime requirements:
-`pip install -r requirements.txt`
+    `pip install -r requirements.txt`
 
 3. Run the game using:
-`python ./game.py`
+    `python ./game.py`
 
