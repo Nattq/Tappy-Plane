@@ -14,8 +14,10 @@ It is a version of flappy bird game, but we change the scenery and we try to hel
 `git clone  https://github.com/Nattq/progr_gra.git tappy-plane`
 
 `cd tappy-plane`
+
 2. Install the project's development and runtime requirements:
 `pip install -r requirements.txt`
+
 3. Run the game using:
 `python ./game.py`
 
